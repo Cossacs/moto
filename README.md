@@ -1,7 +1,7 @@
 moto
 ====
 
-Пример движка интернет-магазина на Python (демо - moto.gyrolab.net), который запущен
+Пример движка интернет-магазина на Python (демо - http://moto.gyrolab.net), который запущен
 на одной виртуальной машине t1.micro в облаке Amazon EC2 (регион US West) под управлением
 Linux Debian 6.0 "Squeeze".
 
@@ -11,8 +11,8 @@ Linux Debian 6.0 "Squeeze".
 Код слабо документированы, для примера Python-кода я добавил комментарии в скрипт,
 обновляющий наличие товаров. Скрипт использует движок сайта:
 
- - istore.py - основной скрипт
- - iutils.py - общий функционал для скриптов, исползующих движок сайта
+ - https://github.com/Cossacs/moto/blob/master/utils/istore.py - основной скрипт
+ - https://github.com/Cossacs/moto/blob/master/utils/iutils.py - общий функционал для скриптов, исползующих движок сайта
  
 Исходники движка на Python:
 
