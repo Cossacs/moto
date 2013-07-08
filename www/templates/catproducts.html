@@ -1,0 +1,299 @@
+          # if list != 'short':
+          # block header
+            <h1>{{ doc.head }}</h1>
+            <div class="textbody">
+              <img src="/func/catimg/ava-{{ doc.cat.translit }}.gif" class="float" alt="{{ doc.cat.name }}">
+              # for k in doc.kseries:
+                # if k.note:
+                  {{sys_eval(k.note)}}
+                # endif
+              # endfor  
+              # if mnf and mnf.image:
+                <div class="center"><a href="{{mnf.url}}"><img src="{{mnf.image.url}}" alt="{{mnf.image.name}}"></a></div>
+              # endif
+          # for block in fblocks:
+            # if not block.b.float
+            # continue 
+            # endif
+            <div class="h4">
+              <img src="/func/folder-up.gif" alt=">>"><a name="cat{{ loop.index }}"></a>
+                &nbsp;<a class="a-text" href="{{block['data'][0].url}}">{{ block['group'] }}</a>
+              # if block.b.k:
+              <span class="hint">{{block.b.k.name}}</span>
+              # endif
+            </div>
+
+            <table border="0" class="frame">
+            <tr>
+              # for column in block['data']|slice(block['columns']):
+              <td style="width: {{100/block['columns']}}%; padding: 5px;">
+              # for row in column:
+                # set name = row.name|truncate(132)
+                # set cls  = "li"
+                # if row.st == 'ACT':
+                #   set name = "<b>" + name + "</b>"
+                #   set cls  = "li-act"
+                # endif
+              <a class="{{ cls }}" href="{{ row['url'] }}">{{ name }}</a>
+              # endfor
+              </td>
+              # endfor
+            </tr>
+            </table>
+          # endfor
+
+            </div>
+
+          # endblock header
+          # endif
+          # block filter
+          # if show_products and list != 'short':
+            <div class="hspacer"></div><div class="hspacer"></div>
+            <div class="body">
+            <table class="blue" border="0">
+            <tr>
+              <td class="viewline-fix"></td>
+              # set list_views = [("products", "Товары"), ("store", "Остатки")]
+              # for (vcode, vname) in list_views: 
+              # set viewclass = ("viewact" if vcode == list_view else "view")
+              <td class="{{ viewclass }}-left"></td>
+              <td class="{{ viewclass }}"><a class="block" {{obj.ajaxhref({'list_view': vcode})}}>{{ vname }}</a></td>
+              <td class="{{ viewclass }}-right"></td>
+              # endfor
+              <td class="viewline">&nbsp;</td>
+            </tr>
+            </table>
+            </div>
+            <div class="hspacer"></div>
+
+          <form id="price{{obj.id}}" action="" onsubmit="{{price_url}}; return false">
+          <div class="textbody-slim">
+            <div class="lfloat">
+              <b>Показать товары</b>:
+              # if show_store:
+                  <img src="/func/arr.gif" alt=">">&nbsp;На складе
+                  / <a class="normal" {{store_url}}>Все</a>
+              # else:
+                  <a class="normal" {{store_url}}>На складе</a>
+                  / <img src="/func/arr.gif" alt=">">&nbsp;Все
+              # endif
+              <input type="submit" size="1" style="width: 2px; visibility: hidden;">
+            </div>
+            <div class="rfloat">
+              # if price_min or price_max:
+                <a {{price_off}}><img class="icon" src="/func/del.gif"></a>
+              # endif
+              <a class="normal" {{price_off}}>Цена</a>:
+              от <input name="price_min" type="text" size="3" value="{{price_min if price_min}}">
+              до <input name="price_max" type="text" size="3" value="{{price_max if price_max}}">
+              &nbsp;<input type="submit" value="Найти!">
+            </div>
+            <div class="clear"></div>
+          </div>
+          </form>
+          # endif
+          # endblock
+          
+          # macro pbarall(showprice = True)
+          <table class="blue" border="0">
+          <tr>
+            <td class="bar-left">Товары <b>{{prodstart}}</b> - <b>{{prodend}}</b>, всего <b>{{ prodcount }}</b></td>
+            <td class="bar-center">
+            # if pbar:
+              <table class="shrink" border="0">
+              <tr>
+                <td class="pagesel">Стр:</td>
+                # if pbar['bbeg']:
+                <td class="pagesel"><a class="pagesel" href="{{pbar['bbeg']}}">...</a></td>
+                # else:
+                <td class="pagesel">&nbsp;</td>
+                # endif
+                # if pbar['prev']
+                <td class="pagesel"><a href="{{pbar['prev']}}"><img class="icon" src="/func/page-left.gif" alt="Назад"></a></td>
+                # else:
+                <td class="pagesel"><img class="icon" src="/func/page-left.gif" alt="Назад"></td>
+                # endif
+                # for (purl, pi, pflag) in pbar['list']:
+                <td class="pagesel{{ '-act' if pflag}}"><a class="pagesel" href="{{purl}}">{{pi}}</a></td>
+                # endfor
+                # if pbar['next']
+                <td class="pagesel"><a href="{{pbar['next']}}"><img class="icon" src="/func/page-right.gif" alt="Вперед"></a></td>
+                # else:
+                <td class="pagesel"><img class="icon" src="/func/page-right.gif" alt="Вперед"></td>
+                # endif
+                # if pbar['bend']:
+                <td class="pagesel"><a class="pagesel" href="{{pbar['bend']}}">...</a></td>
+                # else:
+                <td class="pagesel">&nbsp;</td>
+                # endif
+                # if not show_all:
+                <td class="pagesel"><a class="pagesel" {{pbar['all']}}>Все</a></td>
+                # endif
+              </tr>
+              </table>
+            # endif
+            </td>
+            <td class="bar-right">
+              # if sort == 'priceup':
+              <img src="/func/sort-up.gif" alt="Вверх">
+              # elif sort =='pricedown':
+              <img src="/func/sort-down.gif" alt="Вниз">
+              # endif
+              <a {{ sort_url }}>Цена
+              # print fprice if fprice
+              </a>
+              # print "<a %s><img class='icon' src='/func/del.gif'></a>"|format(price_off) if fmt
+            </td>
+          </tr>
+          </table>
+          # endmacro
+
+        # set fprice = []
+        # do fprice.append("от <b>%s</b>"|format(price_min)) if price_min
+        # do fprice.append("до <b>%s</b>"|format(price_max)) if price_max
+        # set fprice = "<span class='text'>" + fprice|join(" ") + "  грн</span>" if fprice
+
+        # if show_products:
+        # if not prodlist:
+          # macro notfound()
+          <p>Мы не подобрали в разделе
+            # for row in doc('chain', [])
+             {{ "&nbsp;&rarr;&nbsp;" if not loop.first }}
+             <a class="normal" href="{{ row['url'] }}">{{ row['name'] }}</a>
+            # endfor
+          по вашим параметрам ни одного товара. Посмотрите результаты поиска в других разделах, или измените
+          условия поиска.</p>
+          <div class="lpad">
+          # if fprice:
+            <a {{price_off}}><img class="icon" src="/func/del.gif"></a>Цена {{fprice}}<br>
+          # endif
+          # if show_store:
+            <a {{store_url}}><img class="icon" src="/func/del.gif"></a>Только <strong>в наличии </strong>на складе
+          # endif
+          </div>
+          # endmacro
+          # print sys_msg(notfound(), 'Товары не найдены!', 'WARNING')
+        # else:
+          <script type="text/javascript">
+            image1 = new Image();
+            image1.src = "/func/sort-up.gif";
+
+            image2 = new Image();
+            image2.src = "/func/sort-up.gif";
+          </script>
+          # print pbarall(False) if list != 'short'
+
+          # block prodlist
+          # macro showproduct(product):
+          <div class="textbody">
+            <table border="0">
+            <tr>
+              <td class="prodicon"><img class="prodicon" src="/func/catimg/ava-{{doc.cat.translit}}.gif" alt=""></td>
+              <td class="prodname">
+                <a href="{{ product.url }}">{{product.name}}</a>
+                # if product.hint:
+                <br><div class='hint'>Для {{product.hint}}</div>
+                # endif
+              </td>
+              <td>
+                <div class="prodprice">{{ product.price }}</div>
+              </td>
+            </tr>            
+            </table>
+            <table border="0">
+            <tr><td colspan="2" class="hspacer"></td></tr>
+            <tr>
+              <td>
+                <div class="prodimage">
+                  <a href="{{ product.img_big.url }}" class="highslide" onclick="return hs.expand(this)">
+                    <img src="{{ product.img.url }}" alt="{{product.name}}" title="Нажмите, чтобы увеличить">
+                  </a>
+                  <div class="highslide-caption">{{ product.name }}</div>
+                </div>
+
+                <div class="prodcode">
+                  <h3 class="">Код:<span class="text" >&nbsp;{{ product.code }}</span></h3>
+                </div>
+                
+              </td>
+              <td class="prodtext">
+                <div class="textblock">
+                  <h3>Описание:</h3>
+                  {{ product.note|wordwrap|indent(18) }}
+                  <div class="hspacer"></div><div class="hspacer"></div>
+                  <a href="{{ product.url }}" class="a-normal"><img class="icon" alt="" src="/func/icon-detail.gif">Подробнее...</a>
+                  <span class="frame" style="padding: 3px; float: right;">
+                    <b>&nbsp;Склад</b>
+                    # if product.stored:
+                        <img class="icon" src="/func/icon-ok.gif" alt="Есть">
+                    # elif product.eta == 'etano':
+                        &nbsp;&nbsp;<img src="/func/icon-no.gif" alt="Нет">
+                    # elif product.eta == 'etacall':
+                        &nbsp;&nbsp;<img src="/func/phone.gif" alt="Звоните!">
+                    # else:
+                        &nbsp;&nbsp;<img class="icon" src="/func/icon-time.gif" alt="Под заказ">
+                    # endif
+                  </span>
+                </div>
+              </td>
+            </tr>
+            </table>
+          </div>
+          # endmacro
+
+          # macro showstore(product):
+            <tr {{'class="blue-light"' if not product.stored}}>
+              <td class="pricerow_right">{{ product.code }}</td>
+              <td class="pricerow_wrap">
+                <a class="a-text" href="{{ product.url }}">{{product.name}}</a>
+                # if product.hint:
+                <br><div class='hint'>Для {{product.hint}}</div>
+                # endif
+              </td>
+              <td class="pricerow_right">{{(product.stored) if product.stored else 'нет'}}</td>
+              <td class="pricerow_right">{{ product.price }}</td>
+            </tr>
+          # endmacro
+
+          # if list_view == "products":
+            # for product in prodlist: 
+            # print showproduct(product)
+            # if not loop.last:
+            <div class="body"><hr class="thin"></div>
+            # endif
+            # endfor
+          # else:
+            <div class="textbody">
+            <table class="pricelist" border="0">
+            <tr>
+              <td class="pricehead">Код</td>
+              <td class="pricehead_name">Название товара</td>
+              <td class="pricehead">На складе</td>
+              <td class="pricehead">Цена</td>
+            </tr>
+            # for product in prodlist: 
+            # print showstore(product)
+            # endfor
+            </table>
+            </div>
+          # endif
+
+          # endblock prodlist
+
+          # print pbarall(False) if list != 'short'
+
+        # endif
+        # else:
+          # set msg_head = 'Подсказка'
+          # set msg_text = 'Для отображения списка товаров уточните разделы в меню слева: '
+          # set msg_cats = []
+          # for block in fblocks:
+            # if not block['active']:
+            # do msg_cats.append('<a class="normal" href="#cat%s">%s</a>'|format(loop.index, block['group']))
+            # endif
+          # endfor
+          # if msg_cats:
+              # set msg_text = msg_text + msg_cats|join(', ')
+              # print sys_msg(msg_text, 'Подсказка')
+          # endif
+        # endif

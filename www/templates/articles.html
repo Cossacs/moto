@@ -1,0 +1,19 @@
+           # do title("Список статей")
+           <h1>Список статей</h1>
+           <div class="textbody-slim">
+           В этом разделе мы собрали статьи и обзоры, написанные нами, и посвященные мототематике.
+           # for section in articles:
+           <h2>{{section}}</h2>
+             # for article in articles[section]:
+             <div class="clear">
+             <a class="normal" href="{{article.url}}">{{article.fname}}</a>
+             <div class="rfloat"><span class="hint">{{article.date}}</span></div>
+             # if article.new:
+             <img alt="new" class="icon" src="/func/icon-new.gif">
+             # endif
+             <p><a class="lfloat" style="margin: 0px 10px 10px 0px" href="{{article.url}}"><img src="{{article.image.url}}" alt="{{article.name}}"></a>
+             {{article.note|striptags|truncate(350)}}
+             # endfor
+             </div>
+           # endfor
+           </div>

@@ -1,0 +1,75 @@
+         # extends "catproducts.html"
+         # block header
+           # if show_products:
+           # set name = "%s для %s"|format(fiche.name, fiche.model)
+           # do title(name)
+           <h1>{{ name }}</h1>
+           <div class="center">
+             <img class="icon" style="height: 20px; width: auto;" src="/image/{{doc.kseries[1].translit}}.gif" alt="{{doc.kseries[1].name}}">
+             <span class="hint">{{ fiche.note }}</span>
+           </div>
+           <div class="textbody">
+             <div class="center">
+               <a href="{{ fiche.img }}" class="highslide" onclick="return hs.expand(this)">
+                 <img id="fiche" class="fiche" src="{{ fiche.imgs }}" alt="{{ name }}" title="Нажмите, чтобы увеличить">
+               </a>
+               <div class="highslide-caption">{{ name }}</div>
+             </div>
+           </div>
+           # print sys_msg("Минимальная сумма заказа &mdash; <b>300 грн.</b>", "Внимание!", "HINT", "inline")
+           <br>
+           # else:
+           # print super()
+           # if doc.kseries| length == 4:
+             # set model = "%s %s %s"| format(doc.kseries[1].name, doc.kseries[3].name, doc.kseries[2].name)
+           <div class="textbody-slim">
+             <h4><img class="icon" src="/func/info-info.gif" alt="Info">Выберите схему для {{model}}</h4>
+             <table class="frame">
+             <tr>
+             # for column in fblocks[0]['data'] | slice(2):
+               <td style="padding: 5px;">
+               # for row in column:
+               <a class="li" href="{{row.url}}">{{row.name}} {{model}}</a>
+               # endfor
+               </td>
+             # endfor
+             </tr>
+             </table>
+           </div>
+           # endif
+           # endif
+         # endblock header
+
+         # block filter
+         # endblock
+         # block prodlist
+         <div class="textbody">
+           <table class="pricelist" border="0">
+           <tr>
+             <td class="pricehead">№</td>
+             <td class="pricehead">Кол-во</td>
+             <td class="pricehead_name">Название</td>
+             <td class="pricehead">Код</td>
+             <td class="pricehead">Цена</td>
+           </tr>
+           # for row in prodlist
+           <tr {{'class="msg_info"' if row.id == hl}}>
+             <td class="pricerow_right">{{ row.num }}</td>
+             <td class="pricerow_right">{{ row.req }}&nbsp;&nbsp;</td>
+             <td class="pricerow_wrap">
+               {{ row.name }}
+               # if row.note
+                 # if row.partno1:
+                 <div class="hint">{{ row.partno1 }} &mdash; {{ row.note }}</div>
+                 # else:
+                 <div class="hint">{{ row.note }}</div>
+                 # endif
+               # endif
+             </td>
+             <td class="pricerow">{{ row.code }}</td>
+             <td class="pricerow_right">{{ row.price }}</td>
+           </tr>
+           # endfor
+           </table>
+         </div>
+         # endblock prodlist

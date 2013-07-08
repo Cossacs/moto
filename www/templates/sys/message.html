@@ -1,0 +1,24 @@
+         # if mclass == "ERROR":
+         # set myhead = "Произошла ошибка!"
+         <div class="msg_err">
+           <img class="icon" src="/func/info-err.gif" alt="Info">
+         # elif mclass == "WARNING":
+         # set myhead = "Внимание!"
+         <div class="msg_info">
+           <img class="icon" src="/func/info-warn.gif" alt="Info">
+         # elif mclass == "INFO":
+         # set myhead = "Информация"
+         <div class="msg_info">
+           <img class="icon" src="/func/info-info.gif" alt="Info">
+         # elif mclass == "HINT":
+         # set myhead = "Подсказка"
+         <div class="msg_hint">
+           <img class="icon" src="/func/info-info.gif" alt="Info">
+         # endif
+           <b>{{ myhead if not head else head }}</b>&nbsp;
+         # if style == "block":
+           <p>{{ message }}
+         # elif style == "inline":
+           {{ message }}
+         # endif
+         </div>

@@ -1,0 +1,48 @@
+         # extends "catproducts.html"
+         # block header
+           # if searchres and searchres.url:
+             <script type="text/javascript">
+               document.location = "{{searchres.url}}";
+             </script>
+           # endif
+           # set query = query | truncate(65, True)
+           <h1>Поиск товаров</h1>
+           <div class="textbody" style="padding-top: 0; padding-bottom: 5px;">
+             <img src="/func/icon-search.gif" alt="Info">
+             &nbsp;Найдено <b>{{searchres.count}}</b> совпадений по запросу <b>{{query}}</b>:
+             <hr>
+             # for row in searchres.filters:
+             <img src="/func/folder-up.gif" alt="Up">&nbsp;<a class="a-text" href="{{row.url}}">
+               {{row.name}} ({{row.count}})</a><br>
+             # endfor
+             <br>
+            # for row in doc('chain', []):
+               {{ "&nbsp;&rarr;&nbsp;" if not loop.first }}
+               <a class="normal" href="{{ row['url'] }}?query={{query}}">{{ row['name'] }}</a>
+            # endfor
+            &nbsp;&rarr;&nbsp;Результаты поиска &laquo;{{query}}&raquo;
+           </div>
+         # endblock header
+         # block prodlist
+           # if doc.cat.isfiche:
+           <div class="textbody">
+             <table class="pricelist" border="0">
+             <tr>
+               <td class="pricehead">№</td>
+               <td class="pricehead_name">Название</td>
+             </tr>
+             # for row in prodlist
+             <tr>
+               # set names = row['names']
+               # set name = "%s - %s %s %s"|format(names[0], names[1], names[2], names[3])
+               <td class="pricerow">{{ 1 }}</td>
+               <td class="pricerow_wrap">
+                 <a class="text" href="NOREF">{{ name }}</a> / <span class="hint">{{ row['note'] }}</div>
+               </td>
+             </tr>
+             # endfor
+             </table>
+           # else:
+             # print super()
+           # endif
+         # endblock prodlist

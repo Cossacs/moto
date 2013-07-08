@@ -1,0 +1,76 @@
+        # if doc.request.url == "/main/":
+        <div class="body">
+          # for row in news:
+          <div class="frnews_cell">
+            <div class="gray" style="padding: 2px;">
+              &nbsp;{{row.fname}}
+              # print '<img class="icon" src="/func/icon-new.gif" alt="">' if row.new
+              <span class="rfloat"><span class="text-gray" style="font-size: 8pt;">{{row.addate}}</span></span>
+            </div>
+            {{row.note}}
+          </div>
+          # endfor
+          <p><a href="/lib/news.html" class="a-normal"><img class="icon" alt="" src="/func/icon-detail.gif">Все новости...</a>
+
+        </div>
+        <div class="hrb" style="margin: 15px 0px 10px 0px;">
+          <span class="marker">
+            <a class="a-text" href="/articles">
+              Статьи
+            </a>
+          </span>
+        </div>
+        <div class="body">
+          <div class="hspacer"></div>
+          # for row in articles:
+            <a class="li" href="{{row.url}}">{{row.name}}</a>
+          # endfor
+          <p><a href="/articles" class="a-normal"><img class="icon" alt="" src="/func/icon-detail.gif">Все статьи...</a>
+        </div>
+        # endif
+
+        <div class="hrb" style="margin-top: 15px;">
+          <span class="marker" style="background: url('/func/marker-query.png');">
+            <a class="a-text" href="{{product.url}}">
+              Товар наугад!
+            </a>
+          </span>
+        </div>
+
+        <div class="hspacer"></div>
+        <div class="hspacer"></div>
+
+        <div class="textbody">
+          <table border="0">
+          <tr>
+            <td class="prodname" style="padding: 5px;">
+              <a href="{{product.url}}">{{product.name}}</a>
+            </td>
+          </tr>            
+          </table>
+          <table border="0">
+          <tr><td colspan="2" class="hspacer"></td></tr>
+          <tr>
+            <td>
+              <div class="prodimage">
+                <a href="{{product.imagebig.url}}" class="highslide" onclick="return hs.expand(this)">
+                  <img src="{{product.image.url}}" alt="{{product.name}}" title="Нажмите, чтобы увеличить">
+                </a>
+                <div class="highslide-caption">{{product.name}}</div>
+              </div>
+
+              <br>
+              <div class="center">{{ product.price }}</div>
+              
+            </td>
+            <td class="prodtext">
+              <div class="textblock">
+                {{ product.note | striptags | truncate(156) }}
+                <div class="hspacer"></div><div class="hspacer"></div>
+                <a href="{{ product.url }}" class="a-normal"><img class="icon" alt="" src="/func/icon-detail.gif">Подробнее...</a>
+              </div>
+            </td>
+          </tr>
+          </table>
+        </div>
+        <div class="hrb"></div>

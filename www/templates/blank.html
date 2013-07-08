@@ -1,0 +1,200 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html> 
+<head>
+    <title>МотоФортуна</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="%DESC%">
+    <meta name="keywords" content="%KEYWORDS%">
+    <meta name="google-site-verification" content="Foc1LH1hLWQ4KrGZh-D0lp6aIcT-_t0me_lj5LIqtQI">
+
+    <script type="text/javascript" src="/func/highslide/highslide-full.js"></script>
+    <script type="text/javascript" src="/func/ajax/obf.fullajax.js"></script>
+    <script type="text/javascript" src="/func/ajax/obf.srax.fx.js"></script>
+    <script type="text/javascript" src="/func/settings.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/func/highslide/highslide.css">
+    <!--[if lt IE 7]>
+    <link rel="stylesheet" type="text/css" href="/func/highslide/highslide-ie6.css">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/func/main.css">
+    # if doc.request.url == '/main/':
+    <link rel="stylesheet" type="text/css" href="/func/front.css">
+    # endif
+    # if config.isremote:
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-15293319-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    # endif
+</head>
+<body>
+
+<table>
+<tr>
+  <td class="top">
+    <a class="home" href="/"></a>
+    <div class="phones">{{site.config('PHONES')}}<br></div>
+    <div class="prodsum">Товаров: <b>{{ prodcount }}</b>. Оригинальных запчастей: <b>{{ fichecount }}</b></div>
+    <a class="home2" href="/"></a>
+  </td>
+  <td class="top-right"></td>
+</tr>
+</table>
+
+<table>
+<tr>
+    <td colspan="3"><table><tr>    
+      <td class="topmenu-left"></td>
+      <td class="topmenu"><div style="padding-top: 5px; ">
+        # macro arrowspacer(name, class = "topmenuitem")
+        <div class="{{ class }}">&nbsp;
+        #    if arrow == name:
+          <img src="/func/arr-down.gif" alt="*">
+        #    endif
+
+        </div>
+        # endmacro
+
+        {{arrowspacer()}}
+        <div class="rfloat"><a class="a-menu" href="/info/about.html">Про нас</a></div>
+        {{arrowspacer('s-about')}}
+        <div class="rfloat"><a class="a-menu" href="/articles">Статьи</a></div>
+        {{arrowspacer('s-articles')}}
+        <div class="rfloat"><a class="a-menu" href="/info/buy.html">Как купить</a></div>
+        {{arrowspacer('s-buy')}}
+        <div class="rfloat">
+          <a class="a-menu" href="/lib/order.html" 
+               onclick="return load_html(this, '/lib/order.html?marker=body')">
+            Мой заказ
+          </a>
+        </div>
+        {{arrowspacer('s-order')}}
+        {{arrowspacer('home', 'topmenuhome')}}
+        <div class="lfloat"><a class="a-menu" href="/">
+          <img class="icon" src="/func/home.gif" alt="На главную"></a>
+        </div>
+      </div></td>
+      <td class="topmenu-right"></td>
+    </tr></table></td>
+</tr>
+</table>
+
+<div class="hspacer"></div>
+
+<table>
+<tr>
+    <td class="catalog">
+      <table><tr><td class="b-topleft"></td><td class="b-top">&nbsp;</td><td class="b-topright"></td></tr></table>
+      <table><tr>
+        <td class="b-left"></td>
+        <td class="b-main">
+          <div class="center">
+            <a href="/"><img src="/func/catalog.gif" alt="Каталог"></a>
+          </div>
+
+          # print sys_new('search')
+
+          # if doc.request.url != "/main/":
+          <div class="body">
+            <table>
+            <tr>
+            # for row in catlist|slice(2): 
+              <td style="width: 50%;">
+              # for cat in row:
+              # set icon = "-act" if doc.cat and cat.id == doc.cat.id else ""
+              <a class="li2{{icon}}" href="{{cat.url}}">{{cat.name}}</a>
+              # endfor
+              </td>
+            # endfor
+            </tr>
+            </table>
+          </div><br>
+          # endif
+
+          # print sys_new('menu')
+          # macro about()
+          # if doc.request.url == "/main/":
+          &mdash; товары для мотоциклистов.<br>
+          <strong>Всё для мото!</strong>
+          # endif
+          # endmacro
+          <div class="body">
+            Интернет-магазин &laquo;МотоФортуна&raquo;{{about()}}<br><br>
+            <a href="http://www.motofortuna.com" class="a-normal">www.motofortuna.com</a><br>
+            <img src="/func/phone.gif" alt="Телефон:">&nbsp;&nbsp;{{site.config('PHONES')}}<br>
+         </div>
+
+        </td>
+        <td class="b-right"></td>
+      </tr></table>
+      <table><tr><td class="b-botleft"></td><td class="b-bottom">&nbsp;</td><td class="b-botright"></td></tr></table>
+    </td>
+
+    <td class="vspacer"></td>
+    <td>
+      <table><tr><td class="b-topleft"></td><td class="b-top">&nbsp;</td><td class="b-topright"></td></tr></table>
+      <table><tr>
+        <td class="b-left"></td>
+        <td class="b-main">
+
+        <div class="content">
+        <div style="padding-left: 30px; padding-right: 20px;">
+        # for row in doc('chain', []):
+           {{ "&nbsp;&rarr;&nbsp;" if not loop.first }}
+           <a class="normal" href="{{ row['url'] }}">{{ row['name'] }}</a>
+        # endfor
+        </div>
+        <div class="hr"></div>
+        # print sys_new('body')
+        </div>
+        </td>
+        <td class="b-right"></td>
+
+     </tr><tr>
+        <td class="b-left"></td>
+        <td class="b-main">
+          <div class="textbody">
+            <p>Интернет-магазин &laquo;МотоФортуна&raquo;{{about()}}<br><br>
+            <a href="http://www.motofortuna.com" class="a-normal">www.motofortuna.com</a><br>
+            <img src="/func/phone.gif" alt="Телефон:">&nbsp;&nbsp;{{site.config('PHONES')}}<br>
+          </div>
+        </td>
+        <td class="b-right"></td>
+      </tr></table>
+      <table><tr><td class="b-botleft"></td><td class="b-bottom">&nbsp;</td><td class="b-botright"></td></tr></table>
+
+      # if config.isremote:
+      <div class="lfloat">
+      <!-- I.UA counter --><a href="http://www.i.ua/"
+        onclick="this.href='http://i.ua/r.php?79384';" title="Rated by I.UA">
+      <script type="text/javascript"><!--
+      iS='<img src="http://r.i.ua/s?u79384&p191&n'+Math.random();
+      iD=document;iD.cookie="iua=1";if(iD.cookie)iS+='&c1';
+      iS+='&d'+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)
+      +"&w"+screen.width+'&h'+screen.height;
+      iT=iD.referrer.slice(7);iH=window.location.href.slice(7);
+      ((iI=iT.indexOf('/'))!=-1)?(iT=iT.substring(0,iI)):(iI=iT.length);
+      if(iT!=iH.substring(0,iI))iS+='&f'+escape(iD.referrer.slice(7));
+      iS+='&r'+escape(iH);
+      iD.write(iS+'" border="0" width="160" height="19" />');
+      //--></script></a><!-- End of I.UA counter -->
+      </div>
+      # endif
+
+      <div class="copyright">
+        Хостинг-партнер: компания <b>ONet</b>, <a class="normal" href="http://www.onet.net.ua">onet.net.ua</a>&nbsp;&nbsp;
+        &copy;&nbsp;Design By Sergo, Moto Fortuna Co.&nbsp;&nbsp;&nbsp;
+      </div>
+
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

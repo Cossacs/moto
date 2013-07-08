@@ -1,0 +1,20 @@
+          <a class="a-menu" href="#" onclick="return load_html(this, 0, 'onAfterExpand', function cb(sender) {obj('qsearch').focus()})" >
+            <img class="icon" src="/func/search.gif" alt="">
+            Поиск
+          </a>
+          <div id="hs1" class="highslide-maincontent" style="text-align: left;">
+            # print sys_msg("Введите код товара (девять цифр) либо оригинальный серийный номер:", "Поиск товара")
+            <div class="textbody">
+              <form action="/lib/search.html" method="GET" onsubmit="gethax({url:'/lib/search.html?marker=body', idcont: 'testid'}); alert(obj('hs1'));return false">
+                <div>
+                <input id='qsearch' type="text" name="query" size="40" value="">&nbsp;&nbsp;
+                <input type="submit" value="Искать!">
+                </div>
+              </form>
+            </div>
+            <hr>
+            <div class="textbodyw">
+            <div id="testid">Test Text</div>
+            </div>
+            <a href="#">Click Here</a>
+          </div>

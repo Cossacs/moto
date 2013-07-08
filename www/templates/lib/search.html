@@ -1,0 +1,34 @@
+          # if searchres and searchres.url:
+            <script type="text/javascript">
+              document.location = "{{searchres.url}}";
+            </script>
+          # endif
+          # set posturl = doc.view.rooturl if doc.view else doc.request.url
+          # set query = hl if hl else query
+          <div class="body">
+            <form id="hax{{obj.id}}" action="{{posturl}}" method="GET"
+              onsubmit="sendrequest(); return false">
+              <div class="searchframe">
+                <div id="hint" class="searchhint">Код или название товара</div>
+                <input type="text" name="query" id="query" style="width: 215px;" size=35 value="{{query}}">&nbsp;&nbsp;
+                <input type='submit' value='Поиск!'>
+              </div>
+            </form>
+          </div>
+          <div class="hspacer"></div>
+          <div class="hspacer"></div>
+          <script type="text/javascript">
+            if (obj('query').value) {
+                obj('query').focus();
+            } else {
+                obj('hint').style.display = 'block';
+                obj('query').onfocus = hide_hint;
+                obj('hint').onclick = hide_hint;
+            }
+            function sendrequest() {
+              dest = obj('i' + findid('body'));
+              dest.style.display = "none";
+              gethax({url: '{{posturl}}', form: 'hax{{obj.id}}', params: 'marker=body', id: 'body'});
+              dest.style.display = "block";
+            }
+          </script>

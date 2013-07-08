@@ -1,0 +1,33 @@
+.frnews_cell {
+    padding: 5px;
+    padding-bottom: 0px;
+}
+.frblock {
+    width: 225px;
+    height: 288px;
+    margin: 30px 8px 0px 8px;
+    background: url('/func/block.gif');
+    float: left;
+}
+.frblock_header {
+    position: absolute;
+    vertical-align: top;
+    width: 136px;
+    height: 40px;
+    text-align: center;
+    margin-top: -5px;
+    display: block;
+    padding: 5px 60px 0px 0px;
+}
+.frblock_icon {
+    position: absolute;
+    vertical-align: top;
+    margin-top: -45px;
+    margin-left: 125px;
+}
+.frblock_text {
+    position: absolute;
+    vertical-align: top;
+    margin-top: 45px;
+    width: 180px;
+}

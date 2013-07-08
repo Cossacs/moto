@@ -1,0 +1,51 @@
+        <noindex>
+        <div class="center">
+          # for cat in catlist: 
+          <span style="display: inline-block; padding: 10px 5px 5px 5px;">
+            <a class="a-normal" href="/{{cat.translit}}">
+            <img src="/func/catimg/but-{{cat.translit}}.png" alt="{{cat.name}}" style="width: 48px; height: 48px;"><br>
+            {{cat.name}}
+            </a>
+          </span>
+          # endfor
+        </div>
+        <div class="frame" style="margin-top: 10px; margin-bottom: 10px;"><div class="textbody-slim">
+          <a href="/">Мотофортуна</a> &mdash; интернет магазин для мототехники. Место, где вы можете купить
+          <b>расходники</b>, <b>экипировку</b> или <b>заказать запчасти</b> для мотоцикла, скутера,
+          квадроцикла или водного мотоцикла.
+        </div></div> 
+        </noindex> 
+        <div class="textbody-slim"> 
+          <a class="a-text" href="/respro"> 
+            Респираторы для скутеристов<img class="icon" alt="Respro" src='/func/images/logo-respro.gif'>
+          </a>
+        </div><br>
+
+
+        # for row in adverts:
+        <div class="textbody">
+          # print sys_eval(row.note)
+        </div><div class="hr"></div>
+        # endfor
+
+        <div class="textbody">
+          # for cat in catlist
+            <div class="frblock">
+              <div style="padding: 16px;">
+                <img class="frblock_icon" src="/func/catimg/but-{{cat.translit}}.png" alt="{{cat.name}}">
+                <a class="frblock_header" href="/{{cat.translit}}"><span class="a-menu">{{cat.fname}}</span></a>
+                <div class="frblock_text">
+                  <img class="lfloat" src="/func/info-info.gif" alt="" style="padding: 5px 10px 0px 0px;">
+                  <span style="font-size: 8pt;">
+                  {{sys_eval(cat.note)|striptags|truncate(90)}}
+                  </span>
+                  <hr>
+                  # for row in site.gvar.frontpage[cat.translit]:
+                    # set name = row.fname if row.fname else row.name
+                    <a class="li" href="{{row.url}}">{{cat.name}} {{name}}</a>
+                  # endfor
+                </div>
+              </div>
+            </div>
+          # endfor                                           
+        </div>

@@ -1,0 +1,63 @@
+          # if False:
+          <div class="textbody">
+            <a class="center" href="{{ mnf.url }}"><img src="{{ mnf.image.url }}" alt="{{ mnf.name }}"></a>
+          </div>
+          # endif
+          <div class="body">
+            <table class="blue" border="0">
+            <tr>
+              <td class="viewline-fix"></td>
+
+              # for row in doc.views: 
+              # set viewclass = ("viewact" if row.num == doc.view.num else "view")
+              <td class="{{ viewclass }}-left"></td>
+              <td class="{{ viewclass }}"><a class="block" href="{{ row.url }}">{{ row.name }}</a></td>
+              <td class="{{ viewclass }}-right"></td>
+              # endfor
+
+              <td class="viewline">&nbsp;</td>
+            </tr>
+            </table>
+
+            # if gchain:
+            <div class="h4">
+            # for row in gchain:
+              <img src="/func/folder-up.gif" alt=">>">
+                &nbsp;<a class="a-text" href="{{row['url']}}">{{row['name_group']}}</a>
+              <span class="hint">&nbsp;{{row['name']}}</span><br>
+            # endfor
+            </div>
+            # endif
+
+          # for block in fblocks:
+            # if block.b.hidden or block.b.float:
+            # continue 
+            # endif
+            <div class="h4">
+              <img src="/func/folder-up.gif" alt=">>"><a name="cat{{ loop.index }}"></a>
+                &nbsp;<a class="a-text" href="{{block['data'][0].url}}">{{ block['group'] }}</a>
+              # if block.b.k:
+              <span class="hint">{{block.b.k.name}}</span>
+              # endif
+            </div>
+
+            <table border="0" class="frame">
+            <tr>
+              # for column in block['data']|slice(block['columns']):
+              <td style="width: {{100/block['columns']}}%; padding: 5px;">
+              # for row in column:
+                # set name = row.name|truncate(132)
+                # set cls  = "li"
+                # if row.st == 'ACT':
+                #   set name = "<b>" + name + "</b>"
+                #   set cls  = "li-act"
+                # endif
+              <a class="{{ cls }}" href="{{ row['url'] }}">{{ name }}</a>
+              # endfor
+              </td>
+              # endfor
+            </tr>
+            </table>
+          # endfor
+          </div><br>
+          {# print sys_new('products')#}

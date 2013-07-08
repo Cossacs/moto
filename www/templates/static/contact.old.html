@@ -1,0 +1,42 @@
+            <script type="text/javascript" src="http://www.google.com/jsapi?key={{config.GOOGLE_KEY}}"></script>
+            <h1>Контактная информация</h1><br>
+            <script type="text/javascript">
+              google.load("maps", "2", {"language" : "ru"});
+              google.load("search", "1");
+
+              // Call this function when the page has been loaded
+              function initialize() {
+                var map = new google.maps.Map2(obj("map"));
+                map.setCenter(new google.maps.LatLng(50.475267, 30.513893), 16);
+                map.setUIToDefault();
+                //map.openInfoWindow(map.getCenter(),
+                //  document.createTextNode("Магазин МотоФортуна"));
+
+
+                var markerOptions = { title: "Интернет-магазин «Мотофортуна»"};
+                var marker = new GMarker(new GLatLng(50.475067, 30.512593), markerOptions);
+
+                text = '<img src="/func/clogo-small.png" alt="">';
+                text += '&nbsp;Офис &laquo;Мотофортуна&raquo;';
+                text += '<p>г. Киев, ул. Набережно-Луговая 7<br>';
+                text += '<img src="/func/phone.gif" alt="Телефон:">&nbsp;&nbsp;{{site.config("PHONES")}}';
+
+       
+                GEvent.addListener(marker, "click", function() {  
+                  marker.openInfoWindowHtml(text);
+                });         
+                map.addOverlay(marker);  
+                marker.openInfoWindowHtml(text);
+              }
+              google.setOnLoadCallback(initialize);
+            </script>
+            Наш офис находится в Киеве на Подоле, по адресу:
+            <p>04071, г. Киев, ул. Набережно-Луговая 7, {{site.config("PHONES")}}
+            <p>Офис расположен в восьми минутах пешком от метро &laquo;Тараса Шевченко&raquo;.
+            Вы заходите во двор дома №7, затем во второе парадное (с зеленой табличкой 
+            &laquo;УкрТехИмпекс&raquo;), 3 этаж, дверь справа.
+            # print sys_msg('Перед вашим визитом в офис <b>обязательно</b> перезвоните нам, и договоритесь о времени вашего приезда!', 'Важно!', 'WARNING', 'inline')
+            <p>В офисе мы выдаем предварительно заказанный товар.
+            <div class="clear"></div>
+            <br>
+            <p><div id="map" class="google_map"></div>

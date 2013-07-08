@@ -1,0 +1,134 @@
+          <h1>{{ product.name }}</h1>
+          <div class="textbody">    
+            <table cellspacing=0 cellpadding=0 border=0>
+            <tr><td class="center">
+
+              # macro hs_image(func, adtext = ''):
+              <a id="thumb1" href="{{ product.imagebig.url }}" class="highslide" onclick="return {{func}}(this)">
+                <img class="prodimage" src="{{ product.imagebig.url }}" alt="{{ product.name }}{{adtext}}" title="Нажмите, чтобы увеличить">
+              </a>              
+              <div class="highslide-caption">{{ product.name }}{{adtext}}</div>
+              # endmacro
+
+              # if product.images
+              # set cnt = product.images|count
+              #   if cnt > 1:
+              <div class="highslide-gallery">
+              #     print hs_image('load_gallery', ' (1 из %s)'|format(cnt))
+                <div class="hidden-container">
+                # for image in product.images:
+	          <a href="{{image.url}}" class="highslide" onclick="return hs.expand(this, { thumbnailId: 'thumb1' })"></a>
+                  <div class="highslide-caption">{{ product.name }} ({{loop.index}} из {{cnt}})</div>
+                # endfor
+                </div>
+              </div>
+              #   else:
+              #     print hs_image('hs.expand')
+              #   endif
+              # endif
+           
+              <p>{{ product.price }}
+              <p><div class="frame"><div class="lpad">
+                <h3>Код товара:<span class="text" >&nbsp;{{ product.code }}</span></h3>
+              </div></div>
+              <p><div class="lalign">
+              # if product.store.available:
+                <span class="li">Доступен на складе<img class="icon" src="/func/icon-ok.gif" alt="Есть"></span>
+                <span class="li">Количество: <strong>{{product.store.quantity}}</strong></span><br>
+                # elif product.store.default.translit == 'etacall':
+                  <span class="li">Срок поставки: <strong>{{product.store.default.name}}</strong></span>
+                  <p>Наличие товара вы можете уточнить по телефону:
+                  <p><img src="/func/phone.gif" alt="Телефон:">&nbsp;&nbsp;{{site.config('PHONES')}}
+                # elif product.store.default.translit == 'etano':
+                  <span class="li">Нет на складе<img class="icon" src="/func/icon-no.gif" alt="Нет"></span>
+                  <span class="li">Срок поставки: <strong>{{product.store.default.name}}</strong></span>
+                  <p>Товара нет на складе. Если вы хотите сделать <strong>экспресс-заказ</strong>, уточните цену и 
+                  условия такого заказа по телефону:
+                  <p><img src="/func/phone.gif" alt="Телефон:">&nbsp;&nbsp;{{site.config('PHONES')}}
+                # else:
+                  <span class="li">Привозится под заказ<img class="icon" src="/func/icon-time.gif" alt="Под заказ"></span>
+                  <span class="li">Срок поставки: <strong>{{product.store.default.name}}</strong></span>
+                  <p>Товара в данный момент нет в наличии, он привозится под заказ. Срок выполнения заказа
+                  приблизительный.
+                # endif
+              </div>                
+              # if product.store.available:
+              <div class="cellgray">
+                <img class="icon" src="/func/icon-clocks.gif" alt="Есть">
+                Наличие на складах:
+              </div>
+              <table>
+                <tr>
+                  <td class="pricehead">Кол-во</td>
+                  <td class="pricehead_name">Срок поставки</td>
+                </tr>
+                # for store in product.store.data:
+                # set cls = loop.cycle("cell", "cellgray")
+                <tr>
+                  <td class="{{cls}}">{{store.quantity}}</td>
+                  <td class="{{cls}}">{{store.etaname}}</td>
+                </tr>
+                # endfor
+              </table> 
+              # endif
+              <p><div class="hr"></div>
+            </td><td style="width: 100%;">
+              # macro adfloats(floats):
+                # for prop in floats:
+                  # if prop.para.val3 == 'nohead':
+                  {{ prop.note|indent(14) }}
+                  # else:
+                  <p>
+                  <h3>{{prop.fname}}</h3>
+                  {{ prop.note|indent(14) }}
+                  </p>
+                  # endif
+                # endfor
+              # endmacro
+
+              <div class="lpad">
+              <div class="textblock-slim">
+              # print adfloats(top_floats)
+              # if product.note1 and product.note2:
+                {{ product.note1|indent(14) }}
+                <hr>
+                {{ product.note2|indent(14) }}
+              # else:
+                {{ product.note|indent(14) }}
+              # endif
+                # if product.hintmap:
+                # for block in product.hintmap:
+                  # set name = ("Совместимость " + block.view.name)|capitalize
+                  <b>{{name}}</b>
+                    <ol>
+                    # for hint in block.hints:
+                    <li>{{hint}}</li>
+                    # endfor
+                    </ol>
+                # endfor
+                # endif
+                # print adfloats(bot_floats)
+              </div>
+
+              <table class="prodpar">
+              <tr>
+                <td colspan="3" class="prodparhead"><h3>Технические характеристики</h3></td>
+              </tr>
+              # for k in prodparams:
+              <tr>
+                # set cls = loop.cycle("prodparname", "prodparval")
+                <td class={{cls}} style="width: 1px;"><b>{{loop.index}}</b></td>
+                <td class={{cls}} style="width: 40%;">{{ k.name_group }}</td>
+                <td class={{cls}} style="width: 60%; border-right-width: 0px;"><a class="normal" href="/{{doc.cat.translit}}?query={{k.name}}">{{ k.name }}</a></td>
+              </tr>
+              # endfor
+              <tr>
+                <td colspan="2" class="prodfoot"></td>
+              </tr>
+              </table>
+            </div>
+
+
+            </td></tr>
+            </table>
+          </div>

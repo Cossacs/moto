@@ -1,0 +1,62 @@
+﻿           <div id="ichain" style="min-height: 400px;">
+           # set legend = dict(
+               mnf    = ('Производитель', '<strong>производителя</strong>'),
+               mgroup = ('Модельная группа', '<strong>модель</strong>'),
+               model  = ('Модель', 'какая <strong>Модель</strong>'),
+               myear  = ('Модельный год', 'какой <strong>Модельный год</strong>'))
+           # macro ajaxurl(url, params)
+             href='{{url}}?{{params}}' 
+             onclick="hax({'url': '{{url}}', 'params': 'marker=body&amp;ajax_manual=1&amp;{{params}}', 'id': 'ichain', 'method': 'post'}); return false" 
+           # endmacro
+           {{chain}}
+           <div class="textbody-slim">
+             <img class="lfloat" src="/func/images/bike.png" alt="Bike" style="padding: 20px 10px 10px 0px;">
+             <h1>Подбор цепи по мотоциклу</h1>
+             Здесь вы можете узнать оригинальный размер цепи для вашего мотоцикла. Если цепи нужного
+             размера нет сейчас в наличии &mdash; ничего страшного, вы можете подобрать цепь с большим 
+             числом звеньев, которую можно будет укоротить.
+             <div class="h4">
+             # for row in filters:
+               <img src="/func/folder-up.gif" alt=">>">
+                 &nbsp;<a {{ajaxurl(row.url, row.params)}} class="a-text">{{legend[row.key][0]}}</a>
+               <span class="hint">&nbsp;{{row.val}}</span><br>
+             # endfor
+             </div>
+             # if chains:
+               <table>
+                 <tr>
+                   <td class="pricehead_name">Модель</td>
+                   <td class="pricehead">Год выпуска</td>
+                   <td class="pricehead">Цепь</td>
+                 </tr>
+                 # for row in chains:
+                 # set cls = loop.cycle("cell", "cellgray")
+                 # set link = '<a class="normal" href="/tsep?query=%s %s">%s</a>'|format(row.chain, row.links, '%s')
+                 # if row.chain and row.links:
+                 <tr>
+                   <td class="{{cls}}">{{link|format(row.model)}}</td>
+                   <td class="{{cls}}">{{row.myear or ""}}</td>
+                   <td class="{{cls}}">{{link|format('%s на %s'|format(row.chain, row.links))}}</a></td>
+                 </tr>
+                 # endif
+                 # endfor
+               </table> 
+             # elif fblock:
+             <div class="h4">Выберите {{legend[fblock.key][1]}} вашего мотоцикла:</div>
+             <div class="frame">
+             <table>
+             <tr>
+               # for data in fblock.data|slice(4):
+               <td style="width: 25%; padding: 5px;">
+                 # for row in data:
+                   <a {{ajaxurl(row.url, row.params)}}
+                      class="li">{{row.name}}</a>
+                 # endfor
+               </td>
+               # endfor
+               </tr>
+             </table>
+             </div>
+             # endif
+           </div>
+           </div>
